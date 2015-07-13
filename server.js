@@ -8,6 +8,31 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
+var mongo = require('mongoskin');
+var db = {};
+
+db.stage = mongo.db("mongodb://localhost:27017/dev-messenger", {native_parser: true});
+
+db.stage.on('error', function (err) {
+    console.log('connection Error: ' + err);
+});
+
+db.stage.on('connected', function () {
+    console.log('connected');
+});
+
+db.stage.on('reconnected', function () {
+    console.log('reconnected');
+});
+
+db.stage.on('disconnected', function () {
+    console.log('disconnected');
+});
+
+var collections = {
+    Users: db.stage.collection('users'),
+    Messages: db.stage.collection('messages')
+};
 
 function ensureAuthenticated(req, res, next){
 	if (req.isAuthenticated()){
@@ -27,90 +52,28 @@ passport.serializeUser(function(user, done){
 });
 
 passport.deserializeUser(function(id, done){
-	var config = {
-		server	: 'localhost',
-		user 	: 'sa',
-		password: '11',
-		database: 'databasenm'
-	};
+    collections.Users.findOne({_id: id}).then(function(user){
+    	var user = {
+			id: id,
+			username: user.username,
+			password: user.password
+		};
 
-	var connection = new mssql.Connection(config, function(err) {
-	    var request = connection.request();
-	    var query = _format("SELECT * FROM users WHERE id = ?", [id]);
-
-	    request.query(query, function(err, results, fields){
-			var user = {
-				id: id,
-				username: results[0].username,
-				password: results[0].password
-			};
-
-			done(err, user);
-	    });
-	});
+		done(err, user);
+    });
 });
 
 passport.use(new localStrategy(function(username, password, done){
-	var config = {
-		server	: 'localhost',
-		user 	: 'sa',
-		password: '11',
-		database: 'databasenm',
-		options: {
-	        encrypt: true // Use this if you're on Windows Azure
-	    }
-	};
-
-	var connection = new mssql.Connection(config, function(err) {
-	    var request = connection.request(); // or: var request = connection.request();
-	    var query = _format("SELECT * FROM users WHERE username = '?'", [username]);
-	    request.query(query, function(err, results){
-				if(err){
-					return done(err);
-				}else if (results.length === 0){
-					return done(null, false, {message: 'Unknown user ' + username});
-				}else {
-					if (results[0].password === password){
-						var user = {id: results[0].id,
-									username: username,
-									password: password};
-						return done(null, user);
-					}else {
-						return done(null, false, {message: 'Invalid password'});
-					}
-				}
-		});
-	});
-
-
-	// client.connect();
-
-	// client.query(
-	// 	'SELECT top 1 userid, password, salt FROM user WHERE username = ?',
-	// 	[username],
-	// 	function(err, result, fields){
-	// 		if(err){
-	// 			return done(err);
-	// 		}else if (result.length === 0){
-	// 			return done(null, false, {message: 'Unknown user ' + username});
-	// 		}else {
-	// 			var newhash = crypto.createHash('sha512')
-	// 							.update(result[0].salt + password)
-	// 							.digest('hex');
-
-	// 			if (result[0].password === newhash){
-	// 				var user = {id: result[0].userid,
-	// 							username: username,
-	// 							password: newhash};
-	// 				return done(null, user);
-	// 			}else {
-	// 				return done(null, false, {message: 'Invalid password'});
-	// 			}
-	// 		}
-
-	// 		client.end();
-	// 	}
-	// );
+    collections.Users.findOne({username: username}).then(function(user){
+		if (user.password === password){
+			var user = {id: user.id,
+						username: username,
+						password: password};
+			return done(null, user);
+		}else {
+			return done(null, false, {message: 'Invalid password'});
+		}
+    });
 }));
 
 var app = express();
