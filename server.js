@@ -52,11 +52,11 @@ passport.serializeUser(function(user, done){
 });
 
 passport.deserializeUser(function(id, done){
-    collections.Users.findOne({_id: id}).then(function(user){
+    collections.Users.findOne({_id: id}, {}, function(err, result){
     	var user = {
 			id: id,
-			username: user.username,
-			password: user.password
+			username: result.username,
+			password: result.password
 		};
 
 		done(err, user);
@@ -64,11 +64,18 @@ passport.deserializeUser(function(id, done){
 });
 
 passport.use(new localStrategy(function(username, password, done){
-    collections.Users.findOne({username: username}).then(function(user){
-		if (user.password === password){
-			var user = {id: user.id,
-						username: username,
-						password: password};
+    collections.Users.findOne({username: username}, {}, function(err, result){
+    	if(!result){
+    		return done(null, false, {message: 'There is no such user.'});
+    	}
+
+		if (result.password === password){
+			var user = {
+				id: result._id,
+				username: username,
+				password: password
+			};
+
 			return done(null, user);
 		}else {
 			return done(null, false, {message: 'Invalid password'});
@@ -95,6 +102,9 @@ app.use(flash());
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', ensureAuthenticated, function(req, res){
+	var s1 = module;
+	var s2 = exports;
+	
 	res.render('index', {title: 'authenticate', user: req.user});
 	// res.end('page: index, user authenticate ' + req.user);
 });
