@@ -1,11 +1,11 @@
  <!DOCTYPE html>
-<html>
+<html ng-app="chat">
 <head>
     <title>Chat</title>
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
     <link rel="stylesheet" type="text/css" href="../css/signup.css">
 </head>
-    <body>
+    <body ng-controller="AppCtrl">
         <div class="chat">
             <div class="message">
                 <div class="text">hello1 <br> jjjjjjjjjjj</div>
@@ -32,12 +32,12 @@
 
         <div class="modal-background">
         </div>
-        <!-- <div class="modal">
+        <div class="modal">
             <div class="body">
                 <div class="header">
                     <span>Sign Up</span>
                 </div>
-        
+
                 <p>
                     <input type="text" name="email" placeholder="Enter your email...">                    
                 </p>
@@ -48,18 +48,18 @@
                     <input type="password" name="email" placeholder="Confirm your password...">
                 </p>
                 <div>
-                    <button class="button">Sign Up</button>
+                    <button class="button" ng-click="signup()">Sign Up</button>
                     <a href="#" class="link">Sign In</a>
                 </div>
             </div>
-        </div> -->
+        </div>
 
-        <div class="modal">
+        <!-- <div class="modal">
             <div class="body">
                 <div class="header">
                     <span>Sign In</span>
                 </div>
-
+        
                 <p>
                     <input type="text" name="email" placeholder="Enter your email...">                    
                 </p>
@@ -71,6 +71,10 @@
                     <a href="#" class="link">Sign Up</a>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+
+        <script src="../bower_components/angular/angular.js"></script>
+        <script type="text/javascript" src="../app.js"></script>
     </body>
 </html>
