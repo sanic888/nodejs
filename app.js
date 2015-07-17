@@ -1,7 +1,7 @@
 angular.module('chat', []);
 
-angular.module('chat').controller("AppCtrl", function ($scope) {
+angular.module('chat').controller("AppCtrl", function ($scope, api) {
 	$scope.signup = function(){
-		console.log('helolo');
+		api.signup('t@t.com', 'asdfasdf');
 	};
 });

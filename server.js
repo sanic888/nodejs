@@ -9,9 +9,10 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var mongo = require('mongoskin');
+var config = require('./config');
 var db = {};
 
-db.stage = mongo.db("mongodb://localhost:27017/dev-messenger", {native_parser: true});
+db.stage = mongo.db("mongodb://localhost:27017/dev-messenger-stage", {native_parser: true});
 
 db.stage.on('error', function (err) {
     console.log('connection Error: ' + err);
@@ -86,6 +87,7 @@ passport.use(new localStrategy(function(username, password, done){
 var app = express();
 
 app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -99,13 +101,10 @@ app.use(passport.session());
 
 app.use(flash());
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/'));
 
 app.get('/', ensureAuthenticated, function(req, res){
-	var s1 = module;
-	var s2 = exports;
-	
-	res.render('index', {title: 'authenticate', user: req.user});
+	res.render('index.html');
 	// res.end('page: index, user authenticate ' + req.user);
 });
 
@@ -115,8 +114,10 @@ app.get('/admin', ensureAuthenticated, function(req, res){
 });
 
 app.get('/login', function(req, res){
+	console.log('eeeeeeeee11111111');
+
 	var username = req.user ? req.user.username : '';
-	res.render('login', {title: 'authenticate', username: username, message: req.flash('error')});
+	res.render('index.html');
 	// res.end('page: login, user authenticate ' + username + ', message: ' + req.flash('error'));
 });
 
@@ -128,6 +129,12 @@ app.post('/login',
 	}
 );
 
-http.createServer(app).listen(3000);
+app.post('/signup', function(req, res){
+	console.dir(req.body);
+});
 
-console.log('Server listening on port 3000');
+
+
+http.createServer(app).listen(config.port);
+
+console.log('Server listening on port ' + config.port);
