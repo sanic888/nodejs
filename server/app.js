@@ -3,39 +3,19 @@ var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 var http = require('http');
-var mssql = require('mssql');
-var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
-var mongo = require('mongoskin');
+var mongo = require('./mongo');
 var config = require('./config');
-var db = {};
 
-db.stage = mongo.db("mongodb://localhost:27017/dev-messenger-stage", {native_parser: true});
-
-db.stage.on('error', function (err) {
-    console.log('connection Error: ' + err);
+var app = express();
+require('./express')(app, config, function(app){
+  require('./routes')(app);
 });
 
-db.stage.on('connected', function () {
-    console.log('connected');
-});
 
-db.stage.on('reconnected', function () {
-    console.log('reconnected');
-});
-
-db.stage.on('disconnected', function () {
-    console.log('disconnected');
-});
-
-var collections = {
-    Users: db.stage.collection('users'),
-    Messages: db.stage.collection('messages')
-};
-
-function ensureAuthenticated(req, res, next){
+/*function ensureAuthenticated(req, res, next){
 	if (req.isAuthenticated()){
 		return next();
 	}
@@ -53,7 +33,7 @@ passport.serializeUser(function(user, done){
 });
 
 passport.deserializeUser(function(id, done){
-    collections.Users.findOne({_id: id}, {}, function(err, result){
+    mongo.Users.findOne({_id: id}, {}, function(err, result){
     	var user = {
 			id: id,
 			username: result.username,
@@ -65,7 +45,7 @@ passport.deserializeUser(function(id, done){
 });
 
 passport.use(new localStrategy(function(username, password, done){
-    collections.Users.findOne({username: username}, {}, function(err, result){
+    mongo.Users.findOne({username: username}, {}, function(err, result){
     	if(!result){
     		return done(null, false, {message: 'There is no such user.'});
     	}
@@ -86,7 +66,8 @@ passport.use(new localStrategy(function(username, password, done){
 
 var app = express();
 
-app.set('views', __dirname + '/views');
+var path = require('path');
+app.set('views', path.join(__dirname, '../client'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
@@ -101,10 +82,10 @@ app.use(passport.session());
 
 app.use(flash());
 
-app.use(express.static(__dirname + '/'));
+app.use(express.static(path.join(__dirname, '../client')));
 
 app.get('/', ensureAuthenticated, function(req, res){
-	res.render('index.html');
+	res.send(config.spaIndexHtmlPath);
 	// res.end('page: index, user authenticate ' + req.user);
 });
 
@@ -117,7 +98,7 @@ app.get('/login', function(req, res){
 	console.log('eeeeeeeee11111111');
 
 	var username = req.user ? req.user.username : '';
-	res.render('index.html');
+	res.send(config.spaIndexHtmlPath);
 	// res.end('page: login, user authenticate ' + username + ', message: ' + req.flash('error'));
 });
 
@@ -131,7 +112,7 @@ app.post('/login',
 
 app.post('/signup', function(req, res){
 	console.dir(req.body);
-});
+});*/
 
 
 

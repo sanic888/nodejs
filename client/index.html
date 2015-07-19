@@ -2,8 +2,8 @@
 <html ng-app="chat">
 <head>
     <title>Chat</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
-    <link rel="stylesheet" type="text/css" href="../css/signup.css">
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
+    <link rel="stylesheet" type="text/css" href="styles/signup.css">
 </head>
     <body ng-controller="AppCtrl">
         <div class="chat">
@@ -39,13 +39,13 @@
                 </div>
 
                 <p>
-                    <input type="text" name="email" placeholder="Enter your email...">                    
+                    <input type="text" name="email" ng-model="email" placeholder="Enter your email...">                    
                 </p>
                 <p>
-                    <input type="password" name="email" placeholder="Enter your password...">                    
+                    <input type="password" name="email" ng-model="password" placeholder="Enter your password...">                    
                 </p>
                 <p>
-                    <input type="password" name="email" placeholder="Confirm your password...">
+                    <input type="password" name="email" ng-model="confirmPassword" placeholder="Confirm your password...">
                 </p>
                 <div>
                     <button class="button" ng-click="signup()">Sign Up</button>
@@ -75,8 +75,8 @@
 
 
         <script src="../bower_components/angular/angular.js"></script>
-        <script type="text/javascript" src="../app.js"></script>
-        <script type="text/javascript" src="../scripts/httpModel.js"></script>
-        <script type="text/javascript" src="../scripts/services.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+        <script type="text/javascript" src="services/httpModel.js"></script>
+        <script type="text/javascript" src="services/api.js"></script>
     </body>
 </html>

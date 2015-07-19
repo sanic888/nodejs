@@ -1,12 +1,12 @@
 {
-  "port": 8080,
+  "port": 8081,
   "mongo": {
-    "read": "mongodb://localhost:27017/dev-messenger-production",
+    "stage": "mongodb://localhost:27017/dev-messenger-stage",
     "session": "mongodb://localhost:27017/dev-messenger-session"
   },
   "secrets": {
     "session": "sujperasecee13341,fdkas!aaasdsd&*"
   },
   "useBuildApp": true,
-  "rootUrl": "http://localhost:8080"
+  "rootUrl": "http://localhost:8081"
 }

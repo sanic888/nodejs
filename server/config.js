@@ -1,11 +1,11 @@
 var path = require('path');
 var setty = require('setty');
-setty.load({settingsDir: path.join(__dirname, 'settings')});
+setty.load({settingsDir: path.join(__dirname, '../settings')});
 
 var useBuildApp = setty.get('useBuildApp');
 
 var rootPath = path.join(__dirname + '/../');
-var spaIndex = useBuildApp ? './dist/index.html' : './views/index.html';
+var spaIndex = useBuildApp ? '../client/dist/index.html' : '../client/index.html';
 var spaIndexHtmlPath = path.join(__dirname, spaIndex);
 
 module.exports = {

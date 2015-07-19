@@ -1,6 +1,6 @@
 {
   "mongo": {
-    "read": "mongodb://localhost:27017/dev-messenger-stage",
+    "stage": "mongodb://localhost:27017/dev-messenger-stage",
     "session": "mongodb://localhost:27017/dev-messenger-session"
   },
   "useBuildApp": false
