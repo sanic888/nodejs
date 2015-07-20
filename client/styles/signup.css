@@ -23,7 +23,7 @@
 	position: relative;
 }
 
-.header {
+.modal > .header {
 	text-align: left;
 	font-size: 23px;
 }

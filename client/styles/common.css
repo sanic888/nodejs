@@ -16,10 +16,35 @@ span, div {
     padding: 20px;
     margin: 20px;
     background: #fff;
+    padding-top: 100px;
     -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-}        
+}  
+
+.chat-header {
+    position: absolute;
+    border-radius: 10px;
+    width: 80%;
+    padding: 20px;
+    margin-left: 20px;
+    background: #fff;
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.link-left{
+    position: absolute;
+    left: 1%;
+    top: 30%;
+}
+
+.link-right{
+    position: absolute;
+    right: 1%;
+    top: 30%;
+}       
  
 .input {
 	position: relative;
@@ -85,4 +110,26 @@ input[type=text], input[type=password] {
     padding:5px; border:2px solid #ccc; 
     -webkit-border-radius: 5px;
     border-radius: 5px;
+}
+
+.users {
+    position: absolute;
+    top: 0;
+    border-radius: 10px;
+    width: 20%;
+    height: 80%;
+    padding: 20px;
+    margin: 20px;
+    background: #fff;
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+
+}
+
+.selected-user {
+    font-size: 23px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
 }

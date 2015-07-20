@@ -6,6 +6,12 @@
     <link rel="stylesheet" type="text/css" href="styles/signup.css">
 </head>
     <body ng-controller="AppCtrl">
+        <div class="chat-header">
+            <span class="selected-user" ng-show="selectedUser">{{selectedUser.email}}</span>
+            <a href="" class="link link-left" ng-click="showUsers = true">< contacts</a>
+            <a href="" class="link link-right" ng-click="logout()">logout</a>
+        </div>
+
         <div class="chat">
             <div class="message">
                 <div class="text">hello1 <br> jjjjjjjjjjj</div>
@@ -25,54 +31,62 @@
             </div>
         </div>
 
+        <div class="users" ng-show="showUsers">
+            <a href="" class="link link-hide-contacts" ng-click="showUsers = false">hide contacts</a><br><br>
+
+            <div ng-repeat="user in users">
+                <a href="" class="user-link" ng-click="selectUser(user)">{{user.email}}</a>
+            </div>
+        </div>
+
         <div class="input">
-            <div contenteditable="true" class="new-message">hello</div>
+            <textarea name="newMessage" ng-model="newMessage" class="new-message" width: 80%;></textarea>
             <button class="button">Send</button>
         </div>
 
-        <div class="modal-background">
-        </div>
-        <div class="modal">
-            <div class="body">
-                <div class="header">
-                    <span>Sign Up</span>
-                </div>
+        <div ng-show="showLogin">
+            <div class="modal-background">
+            </div>
+            <div class="modal" ng-show="!showSignin">
+                <div class="body">
+                    <div class="header">
+                        <span>Sign Up</span>
+                    </div>
 
-                <p>
-                    <input type="text" name="email" ng-model="email" placeholder="Enter your email...">                    
-                </p>
-                <p>
-                    <input type="password" name="email" ng-model="password" placeholder="Enter your password...">                    
-                </p>
-                <p>
-                    <input type="password" name="email" ng-model="confirmPassword" placeholder="Confirm your password...">
-                </p>
-                <div>
-                    <button class="button" ng-click="signup()">Sign Up</button>
-                    <a href="#" class="link">Sign In</a>
+                    <p>
+                        <input type="text" name="email" ng-model="signup.email" placeholder="Enter your email...">                    
+                    </p>
+                    <p>
+                        <input type="password" name="password" ng-model="signup.password" placeholder="Enter your password...">                    
+                    </p>
+                    <p>
+                        <input type="password" name="confirmPassword" ng-model="signup.confirmPassword" placeholder="Confirm your password...">
+                    </p>
+                    <div>
+                        <button class="button" ng-click="signup()">Sign Up</button>
+                        <a href="" class="link" ng-click="showSignin = true">Sign In</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" ng-show="showSignin">
+                <div class="body">
+                    <div class="header">
+                        <span>Sign In</span>
+                    </div>
+            
+                    <p>
+                        <input type="text" name="email" ng-model="signin.email" placeholder="Enter your email...">                
+                    </p>
+                    <p>
+                        <input type="password" name="password" ng-model="signin.password" placeholder="Enter your password...">                   
+                    </p>
+                    <div>
+                        <button class="button" ng-click="signin()">Sign In</button>
+                        <a href="" class="link" ng-click="showSignin = false">Sign Up</a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- <div class="modal">
-            <div class="body">
-                <div class="header">
-                    <span>Sign In</span>
-                </div>
-        
-                <p>
-                    <input type="text" name="email" placeholder="Enter your email...">                    
-                </p>
-                <p>
-                    <input type="password" name="email" placeholder="Enter your password...">                    
-                </p>
-                <div>
-                    <button class="button">Sign In</button>
-                    <a href="#" class="link">Sign Up</a>
-                </div>
-            </div>
-        </div> -->
-
 
         <script src="../bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="app.js"></script>
