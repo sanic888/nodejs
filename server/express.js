@@ -19,7 +19,7 @@ module.exports = function(app, config, routes) {
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'ejs');
 
-  // app.use(favicon(config.root + '/public/img/favicon.ico'));
+  // app.use(favicon(config.  root + '/public/img/favicon.ico'));
   app.use(bodyParser.json());
   app.use (function (error, req, res, next){
     //body parser set error status to http status, which need to be returned

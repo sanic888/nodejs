@@ -10,9 +10,10 @@ span, div {
 }
 
 .chat {
+    position: relative;
 	border-radius: 10px;
     width: 80%;
-	height: 80%;
+	height: 60%;
     padding: 20px;
     margin: 20px;
     background: #fff;
@@ -23,6 +24,7 @@ span, div {
 }  
 
 .chat-header {
+    z-index: 9;
     position: absolute;
     border-radius: 10px;
     width: 80%;
@@ -113,11 +115,11 @@ input[type=text], input[type=password] {
 }
 
 .users {
+    z-index: 99;
     position: absolute;
     top: 0;
     border-radius: 10px;
     width: 20%;
-    height: 80%;
     padding: 20px;
     margin: 20px;
     background: #fff;
@@ -132,4 +134,18 @@ input[type=text], input[type=password] {
     position: absolute;
     top: 10%;
     left: 50%;
+}
+
+.spinner-loader {
+    position: absolute;
+    top: 40%;
+    margin: 0 auto;
+    left: 50%;
+    z-index: 99;
+}
+
+.chat-content {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
 }

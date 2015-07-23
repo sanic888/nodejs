@@ -4,44 +4,36 @@
     <title>Chat</title>
     <link rel="stylesheet" type="text/css" href="styles/common.css">
     <link rel="stylesheet" type="text/css" href="styles/signup.css">
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
 </head>
     <body ng-controller="AppCtrl">
         <div class="chat-header">
             <span class="selected-user" ng-show="selectedUser">{{selectedUser.email}}</span>
-            <a href="" class="link link-left" ng-click="showUsers = true">< contacts</a>
+            <a href="" class="link link-left" ng-click="showUsers = true">Show Contacts</a>
             <a href="" class="link link-right" ng-click="logout()">logout</a>
         </div>
 
         <div class="chat">
-            <div class="message">
-                <div class="text">hello1 <br> jjjjjjjjjjj</div>
-                <div class="time">16:56</div>
-            </div>
-            <div class="message-right">
-                <div class="text">hello1 <br> dgfhfdgh <br> dg xdf fhfdgh</div>
-                <div class="time">16:57</div>
-            </div>
-            <div class="message">
-                <div class="text">hello1 <br> fghdfhg</div>
-                <div class="time">16:59</div>
-            </div>
-            <div class="message-right">
-                <div class="text">hello1 <br> 345345</div>
-                <div class="time">17:04</div>
+            <div class="spinner-loader" ng-show="showChatSpinner"></div>
+            <div class="chat-content">
+
+                <div ng-repeat="message in selectedUser.messages" class="{{currentUser === message.from._id ? 'message-right': 'message'}}">
+                    <div class="text">{{message.message}}</div>
+                    <div class="time">{{message.createdOn}}</div>
+                </div>
             </div>
         </div>
 
         <div class="users" ng-show="showUsers">
-            <a href="" class="link link-hide-contacts" ng-click="showUsers = false">hide contacts</a><br><br>
-
+            <a href="" class="link" ng-click="showUsers = false">Hide Contacts</a>
             <div ng-repeat="user in users">
                 <a href="" class="user-link" ng-click="selectUser(user)">{{user.email}}</a>
             </div>
         </div>
 
         <div class="input">
-            <textarea name="newMessage" ng-model="newMessage" class="new-message" width: 80%;></textarea>
-            <button class="button">Send</button>
+            <textarea name="newMessage" ng-model="newMessage" class="new-message" ng-keypress="sendMessageByEnter($event)"></textarea>
+            <button class="button" ng-click="sendMessage()">Send</button>
         </div>
 
         <div ng-show="showLogin">
@@ -49,6 +41,7 @@
             </div>
             <div class="modal" ng-show="!showSignin">
                 <div class="body">
+                    <div class="spinner-loader" ng-show="showSignupSpinner"></div>
                     <div class="header">
                         <span>Sign Up</span>
                     </div>
@@ -70,6 +63,7 @@
             </div>
             <div class="modal" ng-show="showSignin">
                 <div class="body">
+                    <div class="spinner-loader" ng-show="showSigninSpinner"></div>
                     <div class="header">
                         <span>Sign In</span>
                     </div>
@@ -87,10 +81,14 @@
                 </div>
             </div>
         </div>
+        
+        <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 
         <script src="../bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="app.js"></script>
         <script type="text/javascript" src="services/httpModel.js"></script>
         <script type="text/javascript" src="services/api.js"></script>
+        <script type="text/javascript" src="services/context.js"></script>
+        <script type="text/javascript" src="services/socket.js"></script>
     </body>
 </html>

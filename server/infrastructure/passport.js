@@ -4,18 +4,19 @@ var mongo = require('../mongo');
 var crypto = require('crypto');
 
 passport.serializeUser(function(user, done){
-	done(null, user.id);
+	done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done){
     mongo.Users.findOne({_id: id}, {}, function(err, result){
-    	var user = {
-			id: id,
-			username: result.username,
-			password: result.password
-		};
-
-		done(err, user);
+    	if(result){
+			done(err, {
+				_id: id,
+				email: result.email
+			});
+    	}else {
+			done(err, null);
+    	}
     });
 });
 
@@ -33,8 +34,8 @@ passport.use(new localStrategy({
 
 			if (result.hash === hash){
 				var user = {
-					id: result._id,
-					username: username
+					_id: result._id,
+					email: username
 				};
 
 				return done(null, user);

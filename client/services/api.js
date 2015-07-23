@@ -15,8 +15,11 @@ angular.module('chat').factory('api', function(httpModel) {
         getUsers: function () {
             return httpModel.get('/get-users');
         },
-        sendMessage: function(message, from, to) {
-            return httpModel.post('/send-message', {message: message, from: from, to: to});
+        sendMessage: function(message, to) {
+            return httpModel.post('/send-message', {message: message, to: to});
+        },
+        getMessages: function(id){
+            return httpModel.get('/get-messages/' + id);
         }
     };
 

@@ -1,8 +1,7 @@
-angular.module('chat').factory('httpModel', function($http, $q) { //, $state, uiNotifications, usSpinnerService, context
+angular.module('chat').factory('httpModel', function($http, $q, context) {
 
   var getAuthHeader = function(){
-    var context = {};
-    return {'Authorization': 'Bearer ' + context && context.token };
+    return {'Authorization': 'Bearer ' + context.token };
   };
   var apiBaseUrl = 'api';
 
@@ -63,23 +62,11 @@ angular.module('chat').factory('httpModel', function($http, $q) { //, $state, ui
           //don't do anything, just pass errors to the controllers
           //sometimes needed when make a post request and there is validation error you need return to a client
           break;
-        case 404:
-          $state.go("not-found");
-          break;
-        case 401:
-          window.location = "/logout";
-          break;
-        case 503:
-          window.location = "/";
-          break;
         case 403:
-          $state.go("access-denied");
+          console.log("access-denied");
           break;
 
         default:
-          usSpinnerService.stop('header');
-
-          uiNotifications.showError("An unexpected error has occurred. Please contact support or try again later.");
           console.error(data);
           break;
       }
